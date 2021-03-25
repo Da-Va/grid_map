@@ -16,3 +16,5 @@
 #include "grid_map_core/Polygon.hpp"
 #include "grid_map_core/iterators/iterators.hpp"
 #include "grid_map_core/eigen_plugins/Functors.hpp"
+#include "grid_map_core/eigen_plugins/Functors.hpp"
+

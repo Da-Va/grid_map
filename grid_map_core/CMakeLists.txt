@@ -9,7 +9,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_package(catkin QUIET)
 
 ## Define Eigen addons. 
-include(cmake/${PROJECT_NAME}-extras.cmake)
+# include(cmake/${PROJECT_NAME}-extras.cmake)
 
 ## System dependencies are found with CMake's conventions
 #find_package(Eigen3 REQUIRED)
@@ -54,7 +54,7 @@ include_directories(
   include
   SYSTEM
     ${catkin_INCLUDE_DIRS}
-    ${EIGEN3_INCLUDE_DIR}
+    # ${EIGEN3_INCLUDE_DIR}
 )
 
 ## Declare a cpp library
@@ -75,11 +75,30 @@ add_library(${PROJECT_NAME}
    src/iterators/SlidingWindowIterator.cpp
 )
 
+target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_link_libraries(${PROJECT_NAME}
   Eigen3::Eigen
   ${catkin_LIBRARIES}
 )
-target_include_directories(${PROJECT_NAME} PUBLIC include)
+
+set(EIGEN_FUNCTORS_PLUGIN_PATH "grid_map_core/eigen_plugins/FunctorsPlugin.hpp")
+if (EIGEN_FUNCTORS_PLUGIN)
+  if (NOT EIGEN_FUNCTORS_PLUGIN STREQUAL EIGEN_FUNCTORS_PLUGIN_PATH)
+    MESSAGE(FATAL_ERROR "EIGEN_FUNCTORS_PLUGIN already defined!")
+  endif ()
+else (EIGEN_FUNCTORS_PLUGIN)
+  target_compile_definitions(${PROJECT_NAME} PUBLIC -DEIGEN_FUNCTORS_PLUGIN=\"${EIGEN_FUNCTORS_PLUGIN_PATH}\")
+endif (EIGEN_FUNCTORS_PLUGIN)
+
+set(EIGEN_DENSEBASE_PLUGIN_PATH "grid_map_core/eigen_plugins/DenseBasePlugin.hpp")
+if (EIGEN_DENSEBASE_PLUGIN)
+  if (NOT EIGEN_DENSEBASE_PLUGIN STREQUAL EIGEN_DENSEBASE_PLUGIN_PATH)
+    MESSAGE(FATAL_ERROR "EIGEN_DENSEBASE_PLUGIN already defined!")
+  endif ()
+else (EIGEN_DENSEBASE_PLUGIN)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC -DEIGEN_DENSEBASE_PLUGIN=\"${EIGEN_DENSEBASE_PLUGIN_PATH}\")
+endif (EIGEN_DENSEBASE_PLUGIN)
+
 
 #############
 ## Install ##

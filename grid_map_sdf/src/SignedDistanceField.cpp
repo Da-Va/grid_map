@@ -159,6 +159,7 @@ Vector3 SignedDistanceField::getDistanceGradientAt(const Position3& position) co
   return Vector3(dx, dy, dz);
 }
 
+#ifndef GRID_MAP_SDF_NO_ROS_PCL 
 void SignedDistanceField::convertToPointCloud(pcl::PointCloud<pcl::PointXYZI>& points) const
 {
   double xCenter = size_.x() / 2.0;
@@ -180,5 +181,6 @@ void SignedDistanceField::convertToPointCloud(pcl::PointCloud<pcl::PointXYZI>& p
   }
   return;
 }
+#endif
 
 } /* namespace */

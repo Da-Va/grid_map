@@ -6,7 +6,7 @@ add_compile_options(-Wall -Wextra -Wpedantic)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 ## Find catkin macros and libraries
-find_package(catkin REQUIRED COMPONENTS
+find_package(catkin QUIET COMPONENTS
   grid_map_core
   pcl_ros
 )
@@ -20,16 +20,18 @@ find_package(catkin REQUIRED COMPONENTS
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
-catkin_package(
-  INCLUDE_DIRS
-    include
-  LIBRARIES
-    ${PROJECT_NAME}
-  CATKIN_DEPENDS
-    grid_map_core
-    pcl_ros
-  DEPENDS
-)
+if(CATKIN_FOUND)
+  catkin_package(
+    INCLUDE_DIRS
+      include
+    LIBRARIES
+      ${PROJECT_NAME}
+    CATKIN_DEPENDS
+      grid_map_core
+      pcl_ros
+    DEPENDS
+  )
+endif()
 
 ###########
 ## Build ##
@@ -47,6 +49,10 @@ include_directories(
 add_library(${PROJECT_NAME}
   src/SignedDistanceField.cpp
 )
+target_include_directories(${PROJECT_NAME} PUBLIC include)
+if(NOT CATKIN_FOUND)
+  target_compile_definitions(${PROJECT_NAME} PUBLIC GRID_MAP_SDF_NO_ROS_PCL)
+endif()
 
 target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES}
@@ -57,21 +63,23 @@ target_link_libraries(${PROJECT_NAME}
 #############
 
 # Mark executables and/or libraries for installation
-install(
-  TARGETS ${PROJECT_NAME}
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+if(CATKIN_FOUND)
+  install(
+    TARGETS ${PROJECT_NAME}
+    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+  )
 
-# Mark cpp header files for installation
-install(
-  DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-  FILES_MATCHING 
-    PATTERN "*.hpp"
-    PATTERN "*.h"
-)
+  # Mark cpp header files for installation
+  install(
+    DIRECTORY include/${PROJECT_NAME}/
+    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+    FILES_MATCHING 
+      PATTERN "*.hpp"
+      PATTERN "*.h"
+  )
+endif()
 
 #############
 ## Testing ##
