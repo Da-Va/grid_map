@@ -6,7 +6,7 @@ add_compile_options(-Wall -Wextra -Wpedantic)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 ## Find catkin macros and libraries
-find_package(catkin REQUIRED)
+find_package(catkin QUIET)
 
 ## Define Eigen addons. 
 include(cmake/${PROJECT_NAME}-extras.cmake)
@@ -30,18 +30,20 @@ endif()
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
-catkin_package(
-  INCLUDE_DIRS
-    include
-    ${EIGEN3_INCLUDE_DIR}
-  LIBRARIES
-    ${PROJECT_NAME}
-  CATKIN_DEPENDS
-  DEPENDS
-    #Eigen3
-  CFG_EXTRAS
-    ${PROJECT_NAME}-extras.cmake
-)
+if(CATKIN_FOUND)
+  catkin_package(
+    INCLUDE_DIRS
+      include
+      ${EIGEN3_INCLUDE_DIR}
+    LIBRARIES
+      ${PROJECT_NAME}
+    CATKIN_DEPENDS
+    DEPENDS
+      #Eigen3
+    CFG_EXTRAS
+      ${PROJECT_NAME}-extras.cmake
+  )
+endif()
 
 ###########
 ## Build ##
@@ -74,33 +76,37 @@ add_library(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
+  Eigen3::Eigen
   ${catkin_LIBRARIES}
 )
+target_include_directories(${PROJECT_NAME} PUBLIC include)
 
 #############
 ## Install ##
 #############
 
-# Mark executables and/or libraries for installation
-install(
-  TARGETS ${PROJECT_NAME}
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+if(CATKIN_FOUND)
+  # Mark executables and/or libraries for installation
+  install(
+    TARGETS ${PROJECT_NAME}
+    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+  )
 
-# Mark cpp header files for installation
-install(
-  DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-  FILES_MATCHING PATTERN "*.hpp"
-)
+  # Mark cpp header files for installation
+  install(
+    DIRECTORY include/${PROJECT_NAME}/
+    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+    FILES_MATCHING PATTERN "*.hpp"
+  )
 
-# Mark other files for installation
-install(
-  DIRECTORY doc
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
+  # Mark other files for installation
+  install(
+    DIRECTORY doc
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+  )
+endif()
 
 #############
 ## Testing ##
