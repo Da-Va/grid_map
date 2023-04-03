@@ -15,7 +15,7 @@
 #include <vector>
 #include <map>
 
-namespace grid_map {
+namespace grid_map_fork {
 
 /*!
  * Gets the position of a cell specified by its index in the map frame.

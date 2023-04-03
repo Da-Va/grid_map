@@ -10,11 +10,6 @@
 
 #include <grid_map_core/GridMap.hpp>
 
-#ifndef GRID_MAP_SDF_NO_ROS_PCL 
-#include <pcl/point_types.h>
-#include <pcl/conversions.h>
-#else
-#endif
 
 
 #include <string>
@@ -33,9 +28,6 @@ class SignedDistanceField
   Vector3 getDistanceGradientAt(const Position3& position) const;
   double getInterpolatedDistanceAt(const Position3& position) const;
 
-  #ifndef GRID_MAP_SDF_NO_ROS_PCL 
-  void convertToPointCloud(pcl::PointCloud<pcl::PointXYZI>& points) const;
-  #endif
 
  private:
   Matrix getPlanarSignedDistanceField(Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic>& data) const;

@@ -10,7 +10,7 @@
 
 #include <grid_map_core/GridMap.hpp>
 
-namespace grid_map {
+namespace grid_map_fork {
 
 class GridMap;
 
@@ -70,4 +70,4 @@ class SubmapGeometry
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
-} /* namespace grid_map */
+} /* namespace grid_map_fork */

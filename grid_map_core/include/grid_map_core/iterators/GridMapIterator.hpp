@@ -13,7 +13,7 @@
 // Eigen
 #include <Eigen/Core>
 
-namespace grid_map {
+namespace grid_map_fork {
 
 /*!
  * Iterator class to iterate trough the entire grid map.
@@ -26,7 +26,7 @@ public:
    * Constructor.
    * @param gridMap the grid map to iterate on.
    */
-  GridMapIterator(const grid_map::GridMap &gridMap);
+  GridMapIterator(const grid_map_fork::GridMap &gridMap);
 
   /*!
    * Copy constructor.

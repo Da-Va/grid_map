@@ -3,10 +3,10 @@ project(grid_map_core)
 
 set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 add_compile_options(-Wall -Wextra -Wpedantic)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+# set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 ## Find catkin macros and libraries
-find_package(catkin QUIET)
+# find_package(catkin QUIET)
 
 ## Define Eigen addons. 
 # include(cmake/${PROJECT_NAME}-extras.cmake)
@@ -30,20 +30,20 @@ endif()
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
-if(CATKIN_FOUND)
-  catkin_package(
-    INCLUDE_DIRS
-      include
-      ${EIGEN3_INCLUDE_DIR}
-    LIBRARIES
-      ${PROJECT_NAME}
-    CATKIN_DEPENDS
-    DEPENDS
-      #Eigen3
-    CFG_EXTRAS
-      ${PROJECT_NAME}-extras.cmake
-  )
-endif()
+# if(CATKIN_FOUND)
+#   catkin_package(
+#     INCLUDE_DIRS
+#       include
+#       ${EIGEN3_INCLUDE_DIR}
+#     LIBRARIES
+#       ${PROJECT_NAME}
+#     CATKIN_DEPENDS
+#     DEPENDS
+#       #Eigen3
+#     CFG_EXTRAS
+#       ${PROJECT_NAME}-extras.cmake
+#   )
+# endif()
 
 ###########
 ## Build ##
@@ -53,7 +53,7 @@ endif()
 include_directories(
   include
   SYSTEM
-    ${catkin_INCLUDE_DIRS}
+    # ${catkin_INCLUDE_DIRS}
     # ${EIGEN3_INCLUDE_DIR}
 )
 
@@ -78,7 +78,7 @@ add_library(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_link_libraries(${PROJECT_NAME}
   Eigen3::Eigen
-  ${catkin_LIBRARIES}
+  # ${catkin_LIBRARIES}
 )
 
 set(EIGEN_FUNCTORS_PLUGIN_PATH "grid_map_core/eigen_plugins/FunctorsPlugin.hpp")
@@ -104,83 +104,83 @@ endif (EIGEN_DENSEBASE_PLUGIN)
 ## Install ##
 #############
 
-if(CATKIN_FOUND)
-  # Mark executables and/or libraries for installation
-  install(
-    TARGETS ${PROJECT_NAME}
-    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-  )
+# if(CATKIN_FOUND)
+#   # Mark executables and/or libraries for installation
+#   install(
+#     TARGETS ${PROJECT_NAME}
+#     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+#   )
 
-  # Mark cpp header files for installation
-  install(
-    DIRECTORY include/${PROJECT_NAME}/
-    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-    FILES_MATCHING PATTERN "*.hpp"
-  )
+#   # Mark cpp header files for installation
+#   install(
+#     DIRECTORY include/${PROJECT_NAME}/
+#     DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+#     FILES_MATCHING PATTERN "*.hpp"
+#   )
 
-  # Mark other files for installation
-  install(
-    DIRECTORY doc
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-  )
-endif()
+#   # Mark other files for installation
+#   install(
+#     DIRECTORY doc
+#     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+#   )
+# endif()
 
-#############
-## Testing ##
-#############
+# #############
+# ## Testing ##
+# #############
 
-if(CATKIN_ENABLE_TESTING)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+# # if(CATKIN_ENABLE_TESTING)
+# #   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
-  ## Add gtest based cpp test target and link libraries
-  catkin_add_gtest(${PROJECT_NAME}-test
-    test/test_grid_map_core.cpp
-    test/test_helpers.cpp
-    test/CubicConvolutionInterpolationTest.cpp
-    test/CubicInterpolationTest.cpp
-    test/GridMapMathTest.cpp
-    test/GridMapTest.cpp
-    test/GridMapIteratorTest.cpp
-    test/LineIteratorTest.cpp
-    test/EllipseIteratorTest.cpp
-    test/SubmapIteratorTest.cpp
-    test/PolygonIteratorTest.cpp
-    test/PolygonTest.cpp
-    test/EigenPluginsTest.cpp
-    test/SpiralIteratorTest.cpp
-    test/SlidingWindowIteratorTest.cpp
-  )
-  target_include_directories(${PROJECT_NAME}-test PRIVATE
-    include
-  )
-  target_include_directories(${PROJECT_NAME}-test SYSTEM PUBLIC
-    ${catkin_INCLUDE_DIRS}
-    ${EIGEN3_INCLUDE_DIR}
-  )
-  target_link_libraries(${PROJECT_NAME}-test
-    ${PROJECT_NAME}
-  )
+# #   ## Add gtest based cpp test target and link libraries
+# #   catkin_add_gtest(${PROJECT_NAME}-test
+# #     test/test_grid_map_core.cpp
+# #     test/test_helpers.cpp
+# #     test/CubicConvolutionInterpolationTest.cpp
+# #     test/CubicInterpolationTest.cpp
+# #     test/GridMapMathTest.cpp
+# #     test/GridMapTest.cpp
+# #     test/GridMapIteratorTest.cpp
+# #     test/LineIteratorTest.cpp
+# #     test/EllipseIteratorTest.cpp
+# #     test/SubmapIteratorTest.cpp
+# #     test/PolygonIteratorTest.cpp
+# #     test/PolygonTest.cpp
+# #     test/EigenPluginsTest.cpp
+# #     test/SpiralIteratorTest.cpp
+# #     test/SlidingWindowIteratorTest.cpp
+# #   )
+# #   target_include_directories(${PROJECT_NAME}-test PRIVATE
+# #     include
+# #   )
+# #   target_include_directories(${PROJECT_NAME}-test SYSTEM PUBLIC
+# #     ${catkin_INCLUDE_DIRS}
+# #     ${EIGEN3_INCLUDE_DIR}
+# #   )
+# #   target_link_libraries(${PROJECT_NAME}-test
+# #     ${PROJECT_NAME}
+# #   )
 
-  ###################
-  ## Code_coverage ##
-  ###################
-  find_package(cmake_code_coverage QUIET)
-  if(cmake_code_coverage_FOUND)
-    add_gtest_coverage(
-      TEST_BUILD_TARGETS
-        ${PROJECT_NAME}-test
-    )
-  endif()
-endif()
+# #   ###################
+# #   ## Code_coverage ##
+# #   ###################
+# #   find_package(cmake_code_coverage QUIET)
+# #   if(cmake_code_coverage_FOUND)
+# #     add_gtest_coverage(
+# #       TEST_BUILD_TARGETS
+# #         ${PROJECT_NAME}-test
+# #     )
+# #   endif()
+# # endif()
 
-#################
-## Clang_tools ##
-#################
-find_package(cmake_clang_tools QUIET)
-if(cmake_clang_tools_FOUND)
-  add_default_clang_tooling(
-    DISABLE_CLANG_FORMAT
-  )
-endif(cmake_clang_tools_FOUND)
+# #################
+# ## Clang_tools ##
+# #################
+# find_package(cmake_clang_tools QUIET)
+# if(cmake_clang_tools_FOUND)
+#   add_default_clang_tooling(
+#     DISABLE_CLANG_FORMAT
+#   )
+# endif(cmake_clang_tools_FOUND)

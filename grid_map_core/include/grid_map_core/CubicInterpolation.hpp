@@ -26,7 +26,7 @@
 *   http://www.geovista.psu.edu/sites/geocomp99/Gc99/082/gc_082.htm
  */
 
-namespace grid_map {
+namespace grid_map_fork {
 
 class GridMap;
 
@@ -229,7 +229,7 @@ bool getUnitSquareCornerIndices(const GridMap &gridMap, const Position &queriedP
  * is closest to the queried position.
  * @param[in]  gridMap - grid map with discrete function values
  * @param[in]  queriedPosition - position for which the interpolation is requested
- * @param[out] index - indices of the closest point in grid_map
+ * @param[out] index - indices of the closest point in grid_map_fork
  * @return - true if success
  */
 bool getClosestPointIndices(const GridMap &gridMap, const Position &queriedPosition, Index *index);
@@ -342,4 +342,4 @@ bool computeNormalizedCoordinates(const GridMap &gridMap, const Index &originInd
 
 } /* namespace bicubic */
 
-} /* namespace grid_map*/
+} /* namespace grid_map_fork*/
