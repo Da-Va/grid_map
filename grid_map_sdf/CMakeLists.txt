@@ -6,10 +6,10 @@ add_compile_options(-Wall -Wextra -Wpedantic)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 ## Find catkin macros and libraries
-find_package(catkin QUIET COMPONENTS
-  grid_map_core
-  pcl_ros
-)
+#find_package(catkin QUIET COMPONENTS
+#  grid_map_core
+#  pcl_ros
+#)
 
 ###################################
 ## catkin specific configuration ##

@@ -6,7 +6,7 @@ add_compile_options(-Wall -Wextra -Wpedantic)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 ## Find catkin macros and libraries
-find_package(catkin QUIET)
+#find_package(catkin QUIET)
 
 ## Define Eigen addons. 
 # include(cmake/${PROJECT_NAME}-extras.cmake)
